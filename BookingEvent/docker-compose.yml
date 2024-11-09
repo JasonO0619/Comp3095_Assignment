@@ -1,5 +1,4 @@
 version: '3.8'
-v
 
 services:
   room-service:
@@ -80,6 +79,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Mount the postgres-init folder from the root directory to initialize databases
+      - ./postgres-init:/docker-entrypoint-initdb.d/init-db.sh  # Mount init scripts to run during container initialization
     networks:
       - backend
 
