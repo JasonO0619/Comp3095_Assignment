@@ -1,20 +1,20 @@
-# Step 1: Use an official OpenJDK image as the base image
-FROM openjdk:21-jdk-slim
+FROM gradle:8-jdk22-alpine AS builder
 
-# Step 2: Set a working directory inside the container
-WORKDIR /app
+COPY --chown=gradle:gradle . /home/gradle/src
 
-# Step 3: Add a volume pointing to /tmp (optional, but can help with caching)
-VOLUME /tmp
+WORKDIR /home/gradle/src
 
-# Step 4: Expose the port that the Spring Boot application will run on
-EXPOSE 8085
+RUN gradle build -x test
 
-# Step 5: Specify the path of the JAR file created by Gradle
-ARG JAR_FILE=build/libs/*.jar
+FROM openjdk:22-jdk
 
-# Step 6: Copy the JAR file into the container at the specified location
-COPY ${JAR_FILE} app.jar
+RUN mkdir /app
 
-# Step 7: Run the application using the Java command
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+COPY --from=builder /home/gradle/src/build/libs/*.jar /app/RoomService.jar
+
+ENV POSTGRES_USER=admin \
+    POSTGRES_PASSWORD=password
+
+EXPOSE 8082
+
+ENTRYPOINT ["java", "-jar", "/app/RoomService.jar"]
