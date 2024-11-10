@@ -8,9 +8,7 @@ services:
     ports:
       - "8085:8085"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://room-service-postgres:5432/room_service_db
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - room-service-postgres
     networks:
@@ -50,7 +48,7 @@ services:
     ports:
       - "8086:8086"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://booking-service-mongodb:27017/booking_service_db
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - booking-service-mongodb
     networks:
@@ -93,9 +91,7 @@ services:
     ports:
       - "8087:8087"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://user-service-postgres:5432/user_service_db
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - user-service-postgres
     networks:
@@ -135,7 +131,7 @@ services:
     ports:
       - "8095:8095"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://event-service-mongodb:27017/event_service_db
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - event-service-mongodb
     networks:
@@ -164,7 +160,7 @@ services:
     ports:
       - "8089:8089"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://approval-service-mongodb:27017/approval_service_db
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - approval-service-mongodb
     networks:
