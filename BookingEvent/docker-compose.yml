@@ -1,10 +1,10 @@
-
 services:
   # ROOM-SERVICE
   room-service:
-    image: room_service
+
     build:
       context: ./RoomService
+      dockerfile: Dockerfile  # Specify the Dockerfile name (optional if it's the default Dockerfile)
     ports:
       - "8085:8085"
     environment:
@@ -42,9 +42,10 @@ services:
 
   # BOOKING-SERVICE
   booking-service:
-    image: booking_service
+
     build:
       context: ./BookingService
+      dockerfile: Dockerfile
     ports:
       - "8086:8086"
     environment:
@@ -85,9 +86,10 @@ services:
 
   # USER-SERVICE
   user-service:
-    image: user_service
+
     build:
       context: ./UserService
+      dockerfile: Dockerfile
     ports:
       - "8087:8087"
     environment:
@@ -125,9 +127,10 @@ services:
 
   # EVENT-SERVICE
   event-service:
-    image: event_service
+
     build:
       context: ./EventService
+      dockerfile: Dockerfile
     ports:
       - "8095:8095"
     environment:
@@ -154,9 +157,10 @@ services:
 
   # APPROVAL-SERVICE
   approval-service:
-    image: approval_service
+
     build:
       context: ./ApprovalService
+      dockerfile: Dockerfile
     ports:
       - "8089:8089"
     environment:
