@@ -1,6 +1,7 @@
 package ca.gbc.approvalservice.dto;
 
 public class ApprovalDTO {
+    private String id;
 
     private String eventId;
     private String approverId;
@@ -10,7 +11,14 @@ public class ApprovalDTO {
     // Constructors, getters, and setters
     public ApprovalDTO() {}
 
-    public ApprovalDTO(String eventId, String approverId, boolean approved, String comments) {
+    public ApprovalDTO(String id, String eventId, String approverId, boolean approved, String comments) {
+        this.eventId = eventId;
+        this.id = id;
+        this.approverId = approverId;
+        this.approved = approved;
+        this.comments = comments;
+    }
+    public ApprovalDTO( String eventId, String approverId, boolean approved, String comments) {
         this.eventId = eventId;
         this.approverId = approverId;
         this.approved = approved;

@@ -2,18 +2,27 @@ package ca.gbc.userservice.dto;
 
 public class UserDTO {
 
+    private Long userId;
     private String name;
     private String email;
-    private String role; // e.g., "staff", "student", "faculty"
+    private String role;
+    private String userType;
 
-    // Constructors, getters, and setters
+
     public UserDTO() {}
 
-    public UserDTO(String name, String email, String role) {
+    public UserDTO(Long userId, String name, String email, String role, String userType) {
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.userType = userType;
     }
+
+    public Long getId() {
+        return userId;
+    }
+
 
     public String getName() {
         return name;
@@ -37,5 +46,13 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

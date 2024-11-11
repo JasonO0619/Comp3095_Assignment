@@ -1,7 +1,10 @@
 package ca.gbc.approvalservice.service;
 
+import ca.gbc.approvalservice.client.EventServiceClient;
+import ca.gbc.approvalservice.client.UserServiceClient;
+import ca.gbc.approvalservice.dto.ApprovalDTO;
+import ca.gbc.approvalservice.dto.ReplicaEventDTO;
 import ca.gbc.approvalservice.model.Approval;
-import ca.gbc.approvalservice.dto.ApprovalDTO;  // Import DTO
 import ca.gbc.approvalservice.repository.ApprovalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +15,23 @@ import java.util.stream.Collectors;
 @Service
 public class ApprovalService {
 
+    private final ApprovalRepository approvalRepository;
+    private final EventServiceClient eventServiceClient;
+    private final UserServiceClient userServiceClient;
+
     @Autowired
-    private ApprovalRepository approvalRepository;
+    public ApprovalService(ApprovalRepository approvalRepository,
+                           EventServiceClient eventServiceClient,
+                           UserServiceClient userServiceClient) {
+        this.approvalRepository = approvalRepository;
+        this.eventServiceClient = eventServiceClient;
+        this.userServiceClient = userServiceClient;
+    }
 
     // Convert Approval entity to ApprovalDTO
     private ApprovalDTO convertToDTO(Approval approval) {
         return new ApprovalDTO(
+                approval.getId(),
                 approval.getEventId(),
                 approval.getApproverId(),
                 approval.isApproved(),
@@ -28,6 +42,7 @@ public class ApprovalService {
     // Convert ApprovalDTO to Approval entity
     private Approval convertToEntity(ApprovalDTO approvalDTO) {
         return new Approval(
+                approvalDTO.getApproverId(),
                 approvalDTO.getEventId(),
                 approvalDTO.getApproverId(),
                 approvalDTO.isApproved(),
@@ -36,15 +51,22 @@ public class ApprovalService {
     }
 
     // Approve or reject an event, using DTO
-    public ApprovalDTO approveOrRejectEvent(ApprovalDTO approvalDTO, String role) {
-        if (!"staff".equalsIgnoreCase(role)) {
+    public ApprovalDTO approveOrRejectEvent(ApprovalDTO approvalDTO) {
+        // Fetch event details
+        ReplicaEventDTO event = eventServiceClient.getEventById(approvalDTO.getEventId());
+
+        // Fetch approver's role
+        String approverRole = userServiceClient.findUserRoleById(approvalDTO.getApproverId());
+
+        // Validate role
+        if (!"staff".equalsIgnoreCase(approverRole)) {
             throw new IllegalArgumentException("Only staff members are authorized to approve or reject events.");
         }
-        // Convert DTO to entity for saving
-        Approval approval = convertToEntity(approvalDTO);
 
-        // Save the approval and return the result as a DTO
+        // Convert DTO to entity and save
+        Approval approval = convertToEntity(approvalDTO);
         Approval savedApproval = approvalRepository.save(approval);
+
         return convertToDTO(savedApproval);
     }
 

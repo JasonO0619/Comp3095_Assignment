@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends MongoRepository<Booking, String> {
 
-    // Find overlapping bookings for a specific room
     List<Booking> findByRoomIdAndEndTimeAfterAndStartTimeBefore(String roomId, LocalDateTime startTime, LocalDateTime endTime);
 }

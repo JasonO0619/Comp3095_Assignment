@@ -1,7 +1,5 @@
 package ca.gbc.bookingservice.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,8 +9,7 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    public String bookingId; // MongoDB will auto-generate this ID
 
     private String userId;
     private String roomId;
@@ -31,8 +28,8 @@ public class Booking {
         this.purpose = purpose;
     }
 
-    public String getId() {
-        return id;
+    public String getBookingId() {
+        return bookingId;
     }
 
     public String getUserId() {
@@ -73,5 +70,12 @@ public class Booking {
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
+    }
+
+    public void setId(String bookingId) {
+    }
+
+    public String getId() {
+        return bookingId;
     }
 }

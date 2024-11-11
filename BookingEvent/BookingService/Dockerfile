@@ -12,6 +12,6 @@ FROM openjdk:22-jdk
 RUN mkdir /app
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/BookingService.jar
 
-EXPOSE 8083
+EXPOSE 8086
 
 ENTRYPOINT ["java", "-jar", "/app/BookingService.jar"]

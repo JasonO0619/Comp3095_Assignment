@@ -2,15 +2,23 @@ package ca.gbc.eventservice.dto;
 
 public class EventDTO {
 
+    private String id;
     private String eventName;
     private String organizerId;
-    private String eventType;  // e.g., "meeting", "seminar", "workshop"
+    private String eventType;
     private int expectedAttendees;
 
-    // Constructors, getters, and setters
+
     public EventDTO() {}
 
     public EventDTO(String eventName, String organizerId, String eventType, int expectedAttendees) {
+        this.eventName = eventName;
+        this.organizerId = organizerId;
+        this.eventType = eventType;
+        this.expectedAttendees = expectedAttendees;
+    }
+    public EventDTO(String id, String eventName, String organizerId, String eventType, int expectedAttendees) {
+        this.id = id;
         this.eventName = eventName;
         this.organizerId = organizerId;
         this.eventType = eventType;
@@ -47,4 +55,9 @@ public class EventDTO {
     public void setExpectedAttendees(int expectedAttendees) {
         this.expectedAttendees = expectedAttendees;
     }
+
+    public String getId() {
+        return id;
+    }
+
 }

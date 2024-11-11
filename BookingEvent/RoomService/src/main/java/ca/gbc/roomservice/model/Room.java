@@ -3,12 +3,11 @@ package ca.gbc.roomservice.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 @Entity
 public class Room {
 
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,10 +17,11 @@ public class Room {
     private String features;
     private boolean availability;
 
-    // Constructors, getters, and setters
+
     public Room() {}
 
-    public Room(String roomName, int capacity, String features, boolean availability) {
+    public Room(Long id, String roomName, int capacity, String features, boolean availability) {
+        this.id = id;
         this.roomName = roomName;
         this.capacity = capacity;
         this.features = features;
@@ -30,6 +30,10 @@ public class Room {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = Long.valueOf(id);
     }
 
     public String getRoomName() {
@@ -63,10 +67,4 @@ public class Room {
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
 }

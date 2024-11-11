@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    // Custom query to find available rooms
     List<Room> findByAvailabilityTrue();
 }

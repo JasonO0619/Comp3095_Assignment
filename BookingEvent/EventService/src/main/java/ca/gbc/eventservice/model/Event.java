@@ -24,6 +24,14 @@ public class Event {
         this.expectedAttendees = expectedAttendees;
     }
 
+    public Event(String id, String eventName, String organizerId, String eventType, int expectedAttendees) {
+        this.eventName = eventName;
+        this.id = id;
+        this.organizerId = organizerId;
+        this.eventType = eventType;
+        this.expectedAttendees = expectedAttendees;
+    }
+
     public String getId() {
         return id;
     }

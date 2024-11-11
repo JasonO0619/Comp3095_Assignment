@@ -15,8 +15,8 @@ public class ApprovalController {
     private ApprovalService approvalService;
 
     @PostMapping
-    public ApprovalDTO approveOrRejectEvent(@RequestBody ApprovalDTO approvalDTO, @RequestParam String role) {
-        return approvalService.approveOrRejectEvent(approvalDTO, role);
+    public ApprovalDTO approveOrRejectEvent(@RequestBody ApprovalDTO approvalDTO) {
+        return approvalService.approveOrRejectEvent(approvalDTO);
     }
 
     @GetMapping

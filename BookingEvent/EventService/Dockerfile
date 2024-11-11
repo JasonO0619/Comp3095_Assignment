@@ -11,6 +11,6 @@ FROM openjdk:22-jdk
 RUN mkdir /app
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/EventService.jar
 
-EXPOSE 8085
+EXPOSE 8095
 
 ENTRYPOINT ["java", "-jar", "/app/EventService.jar"]

@@ -1,8 +1,9 @@
 package ca.gbc.bookingservice.service;
 
+import ca.gbc.bookingservice.client.RoomServiceClient;
 import ca.gbc.bookingservice.model.Booking;
 import ca.gbc.bookingservice.repository.BookingRepository;
-import ca.gbc.bookingservice.dto.BookingDTO;  // Import DTO class
+import ca.gbc.bookingservice.dto.BookingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,17 @@ public class BookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
+    private final RoomServiceClient roomServiceClient;
 
-    // Convert a Booking entity to BookingDTO
+    @Autowired
+    public BookingService(RoomServiceClient roomServiceClient) {
+        this.roomServiceClient = roomServiceClient;
+    }
+
+
     private BookingDTO convertToDTO(Booking booking) {
         return new BookingDTO(
+                booking.getId(),
                 booking.getUserId(),
                 booking.getRoomId(),
                 booking.getStartTime(),
@@ -28,28 +36,30 @@ public class BookingService {
     }
 
     private Booking convertToEntity(BookingDTO bookingDTO) {
-        return new Booking(
+        Booking booking = new Booking(
                 bookingDTO.getUserId(),
                 bookingDTO.getRoomId(),
                 bookingDTO.getStartTime(),
                 bookingDTO.getEndTime(),
                 bookingDTO.getPurpose()
         );
+        booking.setId(bookingDTO.getBookingId());
+        return booking;
     }
 
     public BookingDTO createBooking(BookingDTO bookingDTO) {
-        // Convert DTO to entity for database operations
-        Booking booking = convertToEntity(bookingDTO);
+        boolean isAvailable = roomServiceClient.isRoomAvailable(
+                bookingDTO.getRoomId(),
+                bookingDTO.getStartTime().toString(),
+                bookingDTO.getEndTime().toString()
+        );
 
-        // Validate that the room is available for the requested time
-        List<Booking> overlappingBookings = bookingRepository.findByRoomIdAndEndTimeAfterAndStartTimeBefore(
-                booking.getRoomId(), booking.getStartTime(), booking.getEndTime());
-
-        if (!overlappingBookings.isEmpty()) {
-            throw new IllegalArgumentException("Room is already booked for the specified time range.");
+        if (!isAvailable) {
+            throw new IllegalArgumentException("Room is not available for the specified time range.");
         }
 
-        // Save the booking and convert it back to a DTO
+        Booking booking = convertToEntity(bookingDTO);
+
         Booking savedBooking = bookingRepository.save(booking);
         return convertToDTO(savedBooking);
     }
@@ -66,5 +76,15 @@ public class BookingService {
             return null;
         }
         return convertToDTO(booking);
+    }
+
+    public boolean isRoomAvailable(String roomId, String startTime, String endTime) {
+        LocalDateTime start = LocalDateTime.parse(startTime);
+        LocalDateTime end = LocalDateTime.parse(endTime);
+
+        List<Booking> overlappingBookings = bookingRepository.findByRoomIdAndEndTimeAfterAndStartTimeBefore(
+                roomId, start, end);
+
+        return overlappingBookings.isEmpty();
     }
 }

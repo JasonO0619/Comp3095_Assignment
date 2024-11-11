@@ -15,19 +15,19 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    // Create event using DTO
+
     @PostMapping
     public EventDTO createEvent(@RequestBody EventDTO eventDTO) {
         return eventService.createEvent(eventDTO);
     }
 
-    // Get all events as DTOs
+
     @GetMapping
     public List<EventDTO> getAllEvents() {
         return eventService.getAllEvents();
     }
 
-    // Get a specific event by ID (return as DTO)
+
     @GetMapping("/{id}")
     public EventDTO getEventById(@PathVariable String id) {
         return eventService.getEventById(id);

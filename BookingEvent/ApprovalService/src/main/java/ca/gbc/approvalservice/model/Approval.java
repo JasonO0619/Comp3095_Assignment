@@ -17,6 +17,13 @@ public class Approval {
     // Constructors, getters, and setters
     public Approval() {}
 
+    public Approval(String id, String eventId, String approverId, boolean approved, String comments) {
+        this.eventId = eventId;
+        this.id = id;
+        this.approverId = approverId;
+        this.approved = approved;
+        this.comments = comments;
+    }
     public Approval(String eventId, String approverId, boolean approved, String comments) {
         this.eventId = eventId;
         this.approverId = approverId;

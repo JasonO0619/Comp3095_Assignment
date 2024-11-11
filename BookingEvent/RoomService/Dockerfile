@@ -15,6 +15,6 @@ COPY --from=builder /home/gradle/src/build/libs/*.jar /app/RoomService.jar
 ENV POSTGRES_USER=admin \
     POSTGRES_PASSWORD=password
 
-EXPOSE 8082
+EXPOSE 8085
 
 ENTRYPOINT ["java", "-jar", "/app/RoomService.jar"]

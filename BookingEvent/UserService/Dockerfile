@@ -11,6 +11,6 @@ FROM openjdk:22-jdk
 RUN mkdir /app
 COPY --from=builder /home/gradle/src/build/libs/*.jar /app/UserService.jar
 
-EXPOSE 8084
+EXPOSE 8087
 
 ENTRYPOINT ["java", "-jar", "/app/UserService.jar"]

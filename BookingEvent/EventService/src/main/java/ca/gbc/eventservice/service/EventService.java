@@ -1,5 +1,6 @@
 package ca.gbc.eventservice.service;
 
+import ca.gbc.eventservice.client.UserServiceClient;
 import ca.gbc.eventservice.dto.EventDTO;
 import ca.gbc.eventservice.model.Event;
 import ca.gbc.eventservice.repository.EventRepository;
@@ -12,12 +13,18 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
 
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final UserServiceClient userServiceClient;
 
-    // Convert Event entity to EventDTO
+    @Autowired
+    public EventService(EventRepository eventRepository, UserServiceClient userServiceClient) {
+        this.eventRepository = eventRepository;
+        this.userServiceClient = userServiceClient;
+    }
+
     private EventDTO convertToDTO(Event event) {
         return new EventDTO(
+                event.getId(),
                 event.getEventName(),
                 event.getOrganizerId(),
                 event.getEventType(),
@@ -25,9 +32,10 @@ public class EventService {
         );
     }
 
-    // Convert EventDTO to Event entity
+
     private Event convertToEntity(EventDTO eventDTO) {
         return new Event(
+                eventDTO.getId() != null ? eventDTO.getId() : null,
                 eventDTO.getEventName(),
                 eventDTO.getOrganizerId(),
                 eventDTO.getEventType(),
@@ -35,24 +43,27 @@ public class EventService {
         );
     }
 
-    // Create an Event from EventDTO
-    public EventDTO createEvent(EventDTO eventDTO) {
-        // Convert DTO to entity for saving to the database
-        Event event = convertToEntity(eventDTO);
 
-        // Save the event and return it as a DTO
+    public EventDTO createEvent(EventDTO eventDTO) {
+        // Validate organizer's role
+        String userRole = userServiceClient.findUserRoleById(eventDTO.getOrganizerId());
+        if ("student".equalsIgnoreCase(userRole) && eventDTO.getExpectedAttendees() > 50) {
+            throw new IllegalArgumentException("Students are not allowed to organize events with more than 50 attendees.");
+        }
+
+        Event event = convertToEntity(eventDTO);
         Event savedEvent = eventRepository.save(event);
+
         return convertToDTO(savedEvent);
     }
 
-    // Get all events as DTOs
+
     public List<EventDTO> getAllEvents() {
         return eventRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    // Get event by ID and return as DTO
     public EventDTO getEventById(String id) {
         Event event = eventRepository.findById(id).orElse(null);
         if (event == null) {

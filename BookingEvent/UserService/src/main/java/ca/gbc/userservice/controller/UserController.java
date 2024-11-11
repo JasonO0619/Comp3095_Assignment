@@ -5,6 +5,7 @@ import ca.gbc.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,7 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Create a new user (receive UserDTO and return UserDTO)
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         return userService.createUser(userDTO);
@@ -31,4 +31,17 @@ public class UserController {
     public boolean canUserApprove(@PathVariable String email) {
         return userService.isUserAuthorizedToApprove(email);
     }
+
+
+    @GetMapping("/all")
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/{id}/role")
+    public String getUserRole(@PathVariable Long id) {
+        return userService.findUserRoleById(id);
+    }
+
 }
+

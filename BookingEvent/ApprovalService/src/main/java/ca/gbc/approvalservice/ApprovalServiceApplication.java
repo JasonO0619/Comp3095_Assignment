@@ -2,7 +2,9 @@ package ca.gbc.approvalservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients(basePackages = "ca.gbc.approvalservice.client")
 @SpringBootApplication
 public class ApprovalServiceApplication {
 

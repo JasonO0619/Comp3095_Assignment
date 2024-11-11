@@ -2,12 +2,12 @@ package ca.gbc.roomservice.dto;
 
 public class RoomDTO {
 
+    private Long id;
     private String roomName;
     private int capacity;
-    private String features;  // Optional field to display the features of the room
+    private String features;
     private boolean availability;
 
-    // Constructors, getters, and setters
     public RoomDTO() {}
 
     public RoomDTO(String roomName, int capacity, String features, boolean availability) {
@@ -16,6 +16,14 @@ public class RoomDTO {
         this.features = features;
         this.availability = availability;
     }
+    public RoomDTO(Long id, String roomName, int capacity, String features, boolean availability) {
+        this.roomName = roomName;
+        this.id = id;
+        this.capacity = capacity;
+        this.features = features;
+        this.availability = availability;
+    }
+
 
     public String getRoomName() {
         return roomName;
@@ -48,4 +56,9 @@ public class RoomDTO {
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }

@@ -4,21 +4,34 @@ import java.time.LocalDateTime;
 
 public class BookingDTO {
 
+    private String bookingId;
     private String userId;
     private String roomId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String purpose;
 
-    // Constructors, getters, and setters
+
     public BookingDTO() {}
 
-    public BookingDTO(String userId, String roomId, LocalDateTime startTime, LocalDateTime endTime, String purpose) {
+    public BookingDTO(String bookingId, String userId, String roomId, LocalDateTime startTime, LocalDateTime endTime, String purpose) {
+        this.bookingId = bookingId;
         this.userId = userId;
         this.roomId = roomId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.purpose = purpose;
+    }
+
+    public BookingDTO(String user123, String room456, LocalDateTime of, LocalDateTime of1, String projectMeeting) {
+    }
+
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getUserId() {

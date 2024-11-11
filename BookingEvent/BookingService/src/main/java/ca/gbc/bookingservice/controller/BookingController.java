@@ -28,4 +28,11 @@ public class BookingController {
     public BookingDTO getBookingById(@PathVariable String id) {
         return bookingService.getBookingById(id);
     }
+
+    @GetMapping("/availability")
+    public boolean isRoomAvailable(@RequestParam String roomId,
+                                   @RequestParam String startTime,
+                                   @RequestParam String endTime) {
+        return bookingService.isRoomAvailable(roomId, startTime, endTime);
+    }
 }

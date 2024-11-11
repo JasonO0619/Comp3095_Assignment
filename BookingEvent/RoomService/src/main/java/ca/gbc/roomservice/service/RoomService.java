@@ -1,5 +1,6 @@
 package ca.gbc.roomservice.service;
 
+import ca.gbc.roomservice.client.BookingServiceClient;
 import ca.gbc.roomservice.dto.RoomDTO;
 import ca.gbc.roomservice.model.Room;
 import ca.gbc.roomservice.repository.RoomRepository;
@@ -14,10 +15,12 @@ public class RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+    private BookingServiceClient bookingServiceClient;
 
-    // Convert Room entity to RoomDTO
+
     private RoomDTO convertToDTO(Room room) {
         return new RoomDTO(
+                room.getId(),
                 room.getRoomName(),
                 room.getCapacity(),
                 room.getFeatures(),
@@ -25,9 +28,9 @@ public class RoomService {
         );
     }
 
-    // Convert RoomDTO to Room entity
     private Room convertToEntity(RoomDTO roomDTO) {
         return new Room(
+                roomDTO.getId(),
                 roomDTO.getRoomName(),
                 roomDTO.getCapacity(),
                 roomDTO.getFeatures(),
@@ -53,11 +56,15 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public RoomDTO updateRoomAvailability(Long roomId, boolean availability) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+    public RoomDTO updateRoomAvailability(Long id, boolean availability) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found with ID: " + id));
         room.setAvailability(availability);
         Room updatedRoom = roomRepository.save(room);
         return convertToDTO(updatedRoom);
+    }
+
+    public boolean isRoomAvailable(Long id, String startTime, String endTime) {
+        return bookingServiceClient.isRoomAvailable(String.valueOf(id), startTime, endTime);
     }
 }
