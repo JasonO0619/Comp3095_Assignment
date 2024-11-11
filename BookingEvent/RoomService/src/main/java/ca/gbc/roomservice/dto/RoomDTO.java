@@ -2,7 +2,7 @@ package ca.gbc.roomservice.dto;
 
 public class RoomDTO {
 
-    private Long id;
+    private String id;
     private String roomName;
     private int capacity;
     private String features;
@@ -16,12 +16,15 @@ public class RoomDTO {
         this.features = features;
         this.availability = availability;
     }
-    public RoomDTO(Long id, String roomName, int capacity, String features, boolean availability) {
+    public RoomDTO(String id, String roomName, int capacity, String features, boolean availability) {
         this.roomName = roomName;
         this.id = id;
         this.capacity = capacity;
         this.features = features;
         this.availability = availability;
+    }
+
+    public RoomDTO(Long id, String roomName, int capacity, String features, boolean availability) {
     }
 
 
@@ -57,7 +60,7 @@ public class RoomDTO {
         this.availability = availability;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

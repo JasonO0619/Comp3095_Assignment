@@ -23,7 +23,12 @@ public class BookingDTO {
         this.purpose = purpose;
     }
 
-    public BookingDTO(String user123, String room456, LocalDateTime of, LocalDateTime of1, String projectMeeting) {
+    public BookingDTO(String userId, String roomId, LocalDateTime startTime, LocalDateTime endTime, String purpose) {
+        this.userId = userId;
+        this.roomId = roomId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.purpose = purpose;
     }
 
     public String getBookingId() {

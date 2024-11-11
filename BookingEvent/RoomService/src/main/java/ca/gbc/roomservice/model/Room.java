@@ -28,6 +28,10 @@ public class Room {
         this.availability = availability;
     }
 
+    public Room(String id, String roomName, int capacity, String features, boolean availability) {
+    }
+
+
     public Long getId() {
         return id;
     }

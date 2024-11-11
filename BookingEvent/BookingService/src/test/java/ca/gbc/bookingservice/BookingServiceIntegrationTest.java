@@ -34,7 +34,7 @@ public class BookingServiceIntegrationTest extends MongoDBBaseIntegrationTest {
 
     @BeforeEach
     public void setUpMock() {
-        Mockito.when(roomServiceClient.isRoomAvailable(anyString(), anyString(), anyString())).thenReturn(true);
+        Mockito.when(roomServiceClient.isRoomAvailable(Long.valueOf(anyString()), anyString(), anyString())).thenReturn(true);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class BookingServiceIntegrationTest extends MongoDBBaseIntegrationTest {
 
     @Test
     public void testCreateBookingRoomUnavailable() {
-        Mockito.when(roomServiceClient.isRoomAvailable(anyString(), anyString(), anyString())).thenReturn(false);
+        Mockito.when(roomServiceClient.isRoomAvailable(Long.valueOf(anyString()), anyString(), anyString())).thenReturn(false);
 
         BookingDTO bookingDTO = new BookingDTO("2","user123", "room456",
                 LocalDateTime.of(2024, 11, 15, 10, 0),

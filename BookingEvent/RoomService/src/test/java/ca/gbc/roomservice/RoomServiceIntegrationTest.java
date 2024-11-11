@@ -36,7 +36,8 @@ public class RoomServiceIntegrationTest extends PostgreSQLBaseIntegrationTest {
 
     @Test
     public void testGetAllRooms() throws Exception {
-        RoomDTO roomDTO = new RoomDTO(null,"Meeting Room", 20, "Projector, Whiteboard", true);
+
+        RoomDTO roomDTO = new RoomDTO((String) null,"Meeting Room", 20, "Projector, Whiteboard", true);
 
         mockMvc.perform(post("/rooms")
                         .contentType(MediaType.APPLICATION_JSON)

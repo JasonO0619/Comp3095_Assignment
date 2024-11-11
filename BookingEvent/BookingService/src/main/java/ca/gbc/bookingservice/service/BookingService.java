@@ -77,14 +77,4 @@ public class BookingService {
         }
         return convertToDTO(booking);
     }
-
-    public boolean isRoomAvailable(String roomId, String startTime, String endTime) {
-        LocalDateTime start = LocalDateTime.parse(startTime);
-        LocalDateTime end = LocalDateTime.parse(endTime);
-
-        List<Booking> overlappingBookings = bookingRepository.findByRoomIdAndEndTimeAfterAndStartTimeBefore(
-                roomId, start, end);
-
-        return overlappingBookings.isEmpty();
-    }
 }
